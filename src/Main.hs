@@ -276,18 +276,27 @@ adicity_2_1 :: (a -> b -> c)
 adicity_2_1 f (x, (y, ())) = (f x y, ())
 
 
--- Depending on which (<.<) you interpret as function composition and which one you
+-- | Depending on which (<.<) you interpret as function composition and which one you
 -- interpret as function application, you can interpret the adicity composition below
 -- as either of the following. They all give the same result.
 -- 
---   (+) (2 * 3) 4
---   ((+) . (* 2)) 3 4
+-- >>> (+) (2 * 3) 4
+-- 10
+-- >>> ((+) . (* 2)) 3 4
+-- 10
+-- >>> n
+-- 10
 n :: Int
 n = runAdicity_0_1 $ adicity_2_1 (+) <.< adicity_2_1 (*)
                  <.< adicity_0_1 2 <.< adicity_0_1 3 <.< adicity_0_1 4
 
---   (+1) . (*2) $ 3
---   (+1) $ (*2) 3
+-- |
+-- >>> (+1) . (*2) $ 3
+-- 7
+-- >>> (+1) $ (*2) 3
+-- 7
+-- >>> m
+-- 7
 m :: Int
 m = runAdicity_0_1 $ adicity_1_1 (+1) <.< adicity_1_1 (*2)
                  <.< adicity_0_1 3
