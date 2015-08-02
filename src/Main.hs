@@ -280,27 +280,29 @@ adicity_2_1 f (x, (y, ())) = (f x y, ())
 -- interpret as function application, you can interpret the adicity composition below
 -- as either of the following. They all give the same result.
 -- 
--- >>> (+) (2 * 3) 4
--- 10
--- >>> ((+) . (* 2)) 3 4
--- 10
--- >>> n
--- 10
-n :: Int
-n = runAdicity_0_1 $ adicity_2_1 (+) <.< adicity_2_1 (*)
-                 <.< adicity_0_1 2 <.< adicity_0_1 3 <.< adicity_0_1 4
-
--- |
 -- >>> (+1) . (*2) $ 3
 -- 7
 -- >>> (+1) $ (*2) 3
 -- 7
--- >>> m
+-- >>> example1
 -- 7
-m :: Int
-m = runAdicity_0_1 $ adicity_1_1 (+1) <.< adicity_1_1 (*2)
-                 <.< adicity_0_1 3
+example1 :: Int
+example1 = runAdicity_0_1
+         $ adicity_1_1 (+1) <.< adicity_1_1 (*2) <.< adicity_0_1 3
+
+-- |
+-- >>> (+) (2 * 3) 4
+-- 10
+-- >>> ((+) . (* 2)) 3 4
+-- 10
+-- >>> example2
+-- 10
+example2 :: Int
+example2 = runAdicity_0_1
+         $ adicity_2_1 (+) <.< adicity_2_1 (*)
+       <.< adicity_0_1 2 <.< adicity_0_1 3 <.< adicity_0_1 4
+
 
 main :: IO ()
-main = do print n
-          print m
+main = do print example1
+          print example2
